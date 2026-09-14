@@ -51,6 +51,37 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
+              - name: Gitleaks Secret Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Run TFLint
+        working-directory: environments/preprod
+        run: |
+          tflint --init
+          tflint
+
+      - name: tfsec Security Scan
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: environments/preprod
+
 
       - name: Terraform Plan
         run: terraform plan
+              - name: Setup Infracost
+        uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Infracost Breakdown
+        working-directory: environments/preprod
+        run: |
+          infracost breakdown \
+            --path . \
+            --format table
+
