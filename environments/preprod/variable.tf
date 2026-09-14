@@ -1,5 +1,19 @@
-variable "rgs" {}
-variable "vnets" {}
-variable "subnets" {}
-variable "public_ips" {}
-variable "virtual_machines" {}
+variable "rgs" {
+  type = any
+}
+
+variable "vnets" {
+  type = any
+}
+
+variable "subnets" {
+  type = any
+}
+
+variable "public_ips" {
+  type = any
+}
+
+variable "virtual_machines" {
+  type = any
+}
