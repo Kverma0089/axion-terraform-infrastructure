@@ -1,5 +1,5 @@
 resource "azurerm_virtual_network" "vnets" {
-  for_each            = var.vnets 
+  for_each            = var.vnets
   name                = each.value.vnet_name
   location            = each.value.location
   resource_group_name = each.value.resource_group_name
